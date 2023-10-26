@@ -1,0 +1,22 @@
+{
+  "name": "socketbe",
+  "version": "0.0.0",
+  "private": true,
+  "scripts": {
+    "start": "node ./bin/www"
+  },
+  "dependencies": {
+    "cookie-parser": "~1.4.4",
+    "debug": "~2.6.9",
+    "express": "^4.18.2",
+    "http-errors": "~1.6.3",
+    "jade": "^1.9.2",
+    "morgan": "~1.9.1",
+    "mysql": "^2.18.1",
+    "socket.io": "^4.7.2"
+  },
+  "optionalDependencies": {
+    "bufferutil": "^4.0.8",
+    "utf-8-validate": "^5.0.10"
+  }
+}
