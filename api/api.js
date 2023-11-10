@@ -1,7 +1,7 @@
 const express = require('express');
 const app = express();
 const mysql = require('mysql');
-const { feed, notifications } = require('../data');
+const { feed, notifications, userNotifications } = require('../data');
 const port = 4000;
 
 const connection = mysql.createConnection({
@@ -13,6 +13,7 @@ const connection = mysql.createConnection({
 
 const feedEntity = [...feed];
 const notificationsEntity = [...notifications];
+const userNotificationsEntity = [...userNotifications];
 
 //FEED
 app.get('/feed', (req, res) => {
@@ -41,6 +42,30 @@ app.delete('/notifications/:id', (req, res) => {
 app.delete('/notifications', (req, res) => {
   console.log('endpoint /notifications is called');
   notificationsEntity.splice(0, notificationsEntity.length);
+  res.send({ success: true });
+});
+
+//USER NOTIFICATIONS
+app.get('/user-notifications', (req, res) => {
+  console.log('endpoint /user-notifications is called');
+  res.send(userNotificationsEntity);
+});
+
+app.delete('/user-notifications/:id', (req, res) => {
+  console.log('endpoint /user-notifications/:id is called');
+  const { id } = req.params;
+  const index = userNotificationsEntity.findIndex((n) => n.id === id);
+  if (index > -1) {
+    userNotificationsEntity.splice(index, 1);
+    res.send({ success: true });
+  } else {
+    res.status(404).send({ success: false });
+  }
+});
+
+app.delete('/user-notifications', (req, res) => {
+  console.log('endpoint /user-notifications is called');
+  userNotificationsEntity.splice(0, userNotificationsEntity.length);
   res.send({ success: true });
 });
 
