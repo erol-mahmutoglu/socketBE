@@ -18,9 +18,9 @@ const userNotificationsEntity = [...userNotifications];
 setInterval(() => {
   notificationsEntity.splice(0, notificationsEntity.length);
   userNotificationsEntity.splice(0, userNotificationsEntity.length);
-  notificationsEntity.concat([...notifications]);
-  userNotificationsEntity.concat([...userNotifications]);
-}, 60000);
+  notificationsEntity.push(...notifications);
+  userNotificationsEntity.push(...userNotifications);
+}, 10000);
 
 //FEED
 app.get('/feed', (req, res) => {
