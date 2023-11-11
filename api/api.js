@@ -15,6 +15,13 @@ const feedEntity = [...feed];
 const notificationsEntity = [...notifications];
 const userNotificationsEntity = [...userNotifications];
 
+setInterval(() => {
+  notificationsEntity.splice(0, notificationsEntity.length);
+  userNotificationsEntity.splice(0, userNotificationsEntity.length);
+  notificationsEntity.concat([...notifications]);
+  userNotificationsEntity.concat([...userNotifications]);
+}, 60000);
+
 //FEED
 app.get('/feed', (req, res) => {
   console.log('endpoint /feed is called');
