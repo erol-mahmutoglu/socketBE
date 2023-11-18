@@ -1,7 +1,7 @@
 const express = require('express');
 const app = express();
 const mysql = require('mysql');
-const { feed, notifications, userNotifications } = require('../data');
+const { feed, notifications } = require('../data');
 const port = 4000;
 
 const connection = mysql.createConnection({
@@ -13,13 +13,10 @@ const connection = mysql.createConnection({
 
 const feedEntity = [...feed];
 const notificationsEntity = [...notifications];
-const userNotificationsEntity = [...userNotifications];
 
 setInterval(() => {
   notificationsEntity.splice(0, notificationsEntity.length);
-  userNotificationsEntity.splice(0, userNotificationsEntity.length);
   notificationsEntity.push(...notifications);
-  userNotificationsEntity.push(...userNotifications);
 }, 10000);
 
 //FEED
@@ -32,6 +29,18 @@ app.get('/feed', (req, res) => {
 app.get('/notifications', (req, res) => {
   console.log('endpoint /notifications is called');
   res.send(notificationsEntity);
+});
+
+app.put('/notifications/mark-as-read/:id', (req, res) => {
+  console.log('endpoint /notifications/mark-as-read/:id is called');
+  const { id } = req.params;
+  const index = notificationsEntity.findIndex((n) => n.id === id);
+  if (index > -1) {
+    notificationsEntity[index].data.status = 'READ';
+    res.send(notificationsEntity[index]);
+  } else {
+    res.status(404).send({ success: false });
+  }
 });
 
 app.delete('/notifications/:id', (req, res) => {
@@ -49,30 +58,6 @@ app.delete('/notifications/:id', (req, res) => {
 app.delete('/notifications', (req, res) => {
   console.log('endpoint /notifications is called');
   notificationsEntity.splice(0, notificationsEntity.length);
-  res.send({ success: true });
-});
-
-//USER NOTIFICATIONS
-app.get('/user-notifications', (req, res) => {
-  console.log('endpoint /user-notifications is called');
-  res.send(userNotificationsEntity);
-});
-
-app.delete('/user-notifications/:id', (req, res) => {
-  console.log('endpoint /user-notifications/:id is called');
-  const { id } = req.params;
-  const index = userNotificationsEntity.findIndex((n) => n.id === id);
-  if (index > -1) {
-    userNotificationsEntity.splice(index, 1);
-    res.send({ success: true });
-  } else {
-    res.status(404).send({ success: false });
-  }
-});
-
-app.delete('/user-notifications', (req, res) => {
-  console.log('endpoint /user-notifications is called');
-  userNotificationsEntity.splice(0, userNotificationsEntity.length);
   res.send({ success: true });
 });
 

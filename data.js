@@ -11,6 +11,11 @@ const TARGET = {
   USER: 'user',
 };
 
+const STATUS = {
+  READ: 'READ',
+  PENDING: 'PENDING',
+};
+
 const SCREEN = {
   EMPLOYEE: {
     RESERVATIONS: 'reservations',
@@ -33,6 +38,7 @@ const notifications = [
     body: 'Onay bekleyen 1 randevun var.',
     data: {
       type: TYPE.SUCCESS,
+      status: STATUS.PENDING,
       createdAt: '2023-10-20T00:12:00.000Z',
       navigate: {
         target: TARGET.EMPLOYEE,
@@ -47,6 +53,7 @@ const notifications = [
     body: 'Uygunluk durumunu girmen gerekiyor.',
     data: {
       type: TYPE.WARNING,
+      status: STATUS.READ,
       createdAt: '2023-10-23T00:12:00.000Z',
       navigate: {
         target: TARGET.EMPLOYEE,
@@ -55,15 +62,13 @@ const notifications = [
       },
     },
   },
-];
-
-const userNotifications = [
   {
-    id: '1',
+    id: '3',
     title: 'Onay bekleyen randevular',
     body: 'Onay bekleyen 1 randevun var.',
     data: {
       type: TYPE.SUCCESS,
+      status: STATUS.PENDING,
       createdAt: '2023-10-20T00:12:00.000Z',
       navigate: {
         target: TARGET.USER,
@@ -73,11 +78,12 @@ const userNotifications = [
     },
   },
   {
-    id: '2',
+    id: '4',
     title: 'Ödenmemiş faturalar',
     body: 'Ödenmemiş 1 faturan var.',
     data: {
       type: TYPE.WARNING,
+      status: STATUS.READ,
       createdAt: '2023-10-23T00:12:00.000Z',
       navigate: {
         target: TARGET.USER,
@@ -113,5 +119,4 @@ const feed = [
 module.exports = {
   feed,
   notifications,
-  userNotifications,
 };
